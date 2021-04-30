@@ -32,7 +32,7 @@ def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
 # A route to generate melody from supplied audio file link
-@app.route('/generate', methods=['GET'])
+@app.route('/generate', methods=['POST'])
 def generate_melody():
     # If there is no request data in json or audio_file item in request data
     # Abort the request and return error code 400
@@ -102,5 +102,5 @@ if __name__ == '__main__':
 
 # Example of correct POST request
 # curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" http://localhost:5000/api/v1/generate
-# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" https://melofy-api.herokuapp.com//api/v1/generate
+# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" https://melofy-api.herokuapp.com/generate
 # curl -i -X POST -F "file=@twinkle_twinkle_little_star.wav" http://localhost:5000/api/v1/generate
