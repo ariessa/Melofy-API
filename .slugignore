@@ -1,4 +1,0 @@
-# Exclude these files from Heroku slug
-
-/virtual
-/__pycache__

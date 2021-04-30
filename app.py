@@ -1,17 +1,18 @@
 # Import Flask library
 import flask
-import magenta
-import note_seq
-import urllib.request
-import tensorflow
+import os
+# import magenta
+# import note_seq
+# import urllib.request
+# import tensorflow
 
-from flask import request
+# from flask import request
 
-# Import dependencies for Magenta
-from magenta.models.melody_rnn import melody_rnn_sequence_generator
-from magenta.models.shared import sequence_generator_bundle
-from note_seq.protobuf import generator_pb2
-from note_seq.protobuf import music_pb2
+# # Import dependencies for Magenta
+# from magenta.models.melody_rnn import melody_rnn_sequence_generator
+# from magenta.models.shared import sequence_generator_bundle
+# from note_seq.protobuf import generator_pb2
+# from note_seq.protobuf import music_pb2
 
 # Create a Flask application object
 app = flask.Flask(__name__)
@@ -35,17 +36,17 @@ def page_not_found(e):
 def generate_melody():
     # If there is no request data in json or audio_file item in request data
     # Abort the request and return error code 400
-    if not request.json or not 'audio_file_link' in request.json:
-        abort(400)
+    # if not request.json or not 'audio_file_link' in request.json:
+    #     abort(400)
 
-    # Retrieve audio file link from request.json
-    audio_file_link = request.json['audio_file_link']
+    # # Retrieve audio file link from request.json
+    # audio_file_link = request.json['audio_file_link']
 
-    # Download audio file from audio_file_link
-    print('Beginning file download with urllib2...')
+    # # Download audio file from audio_file_link
+    # print('Beginning file download with urllib2...')
 
-    url = 'https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing'
-    urllib.request.urlretrieve(url, '/Users/aries/Downloads/test.wav')
+    # url = 'https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing'
+    # urllib.request.urlretrieve(url, '/Users/aries/Downloads/test.wav')
 
 
     # # Convert audio file from WAV to MIDI
@@ -92,10 +93,12 @@ def generate_melody():
     # link = ""
 
     # return "Generated Melody: " + link
-    return "It works 🎉!\n\n" + audio_file_link
+    return "It works 🎉!"
 
 # Run the application server
-app.run()
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug = True, host = '0.0.0.0')
 
 # Example of correct POST request
 # curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" http://localhost:5000/api/v1/generate
