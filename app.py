@@ -1,7 +1,7 @@
 # Import Flask library
 import flask
 import os
-import redis
+# import redis
 # import magenta
 # import note_seq
 # import urllib.request
@@ -21,7 +21,7 @@ app = flask.Flask(__name__)
 # Start the debugger
 app.config["DEBUG"] = True
 
-r = redis.from_url(os.environ.get("REDIS_URL"))
+# r = redis.from_url(os.environ.get("REDIS_URL"))
 
 # A route to return the homepage
 @app.route('/', methods=['GET'])
