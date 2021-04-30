@@ -1,6 +1,7 @@
 # Import Flask library
 import flask
 import os
+import redis
 # import magenta
 # import note_seq
 # import urllib.request
@@ -19,6 +20,8 @@ app = flask.Flask(__name__)
 
 # Start the debugger
 app.config["DEBUG"] = True
+
+r = redis.from_url(os.environ.get("REDIS_URL"))
 
 # A route to return the homepage
 @app.route('/', methods=['GET'])
@@ -101,6 +104,5 @@ if __name__ == '__main__':
     app.run(debug = True, host = '0.0.0.0')
 
 # Example of correct POST request
-# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" http://localhost:5000/api/v1/generate
+# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" http://localhost:5000/generate
 # curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" https://melofy-api.herokuapp.com/generate
-# curl -i -X POST -F "file=@twinkle_twinkle_little_star.wav" http://localhost:5000/api/v1/generate
