@@ -1,27 +1,13 @@
-# Import Flask library
-import flask
+# Import libraries
+from flask import Flask
+from flask import request
 import os
-# import redis
-# import magenta
-# import note_seq
-# import urllib.request
-# import tensorflow
-
-# from flask import request
-
-# # Import dependencies for Magenta
-# from magenta.models.melody_rnn import melody_rnn_sequence_generator
-# from magenta.models.shared import sequence_generator_bundle
-# from note_seq.protobuf import generator_pb2
-# from note_seq.protobuf import music_pb2
 
 # Create a Flask application object
-app = flask.Flask(__name__)
+app = Flask(__name__)
 
 # Start the debugger
 app.config["DEBUG"] = True
-
-# r = redis.from_url(os.environ.get("REDIS_URL"))
 
 # A route to return the homepage
 @app.route('/', methods=['GET'])
@@ -39,17 +25,23 @@ def page_not_found(e):
 def generate_melody():
     # If there is no request data in json or audio_file item in request data
     # Abort the request and return error code 400
-    # if not request.json or not 'audio_file_link' in request.json:
-    #     abort(400)
+    if not request.json or not 'audio_file_link' in request.json:
+        abort(400)
 
-    # # Retrieve audio file link from request.json
-    # audio_file_link = request.json['audio_file_link']
+    # Retrieve audio file link from request.json
+    audio_file_link = request.json['audio_file_link']
 
-    # # Download audio file from audio_file_link
-    # print('Beginning file download with urllib2...')
+    # Download audio file from audio_file_link
+    r = requests.get(audio_file_link, stream = True)
+    
+    # Save to storage in Heroku temporary directory
+    # with open(os.path.join( "C:\\", "Users", "aries", "Downloads", "test.mid" ), 'wb') as wav:
+    with open(os.path.join("C:\\", "Users", "aries", "Downloads", "test.mid"), 'wb') as wav:
+        for chunk in r.iter_content(chunk_size = 1024):
 
-    # url = 'https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing'
-    # urllib.request.urlretrieve(url, '/Users/aries/Downloads/test.wav')
+            # Write one chunk at a time to WAV file
+            if chunk:
+                wav.write(chunk)
 
 
     # # Convert audio file from WAV to MIDI
@@ -105,4 +97,4 @@ if __name__ == '__main__':
 
 # Example of correct POST request
 # curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" http://localhost:5000/generate
-# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://drive.google.com/file/d/17WUeEsZZ8L-inC4uFXz5Kv6nehmwN2FN/view?usp=sharing\" }" https://melofy-api.herokuapp.com/generate
+# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"http://www.jsbach.net/midi/cs1-1pre.mid\" }" https://melofy-api.herokuapp.com/generate
