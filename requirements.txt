@@ -1,8 +1,6 @@
 flask 
-gunicorn 
-numpy 
-magenta 
-tensorflow-addons
+gunicorn
+magenta
 azure-storage-blob 
 audio-to-midi 
 timidity
