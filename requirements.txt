@@ -1,0 +1,8 @@
+flask 
+gunicorn 
+numpy 
+magenta 
+tensorflow-addons
+azure-storage-blob 
+audio-to-midi 
+timidity
