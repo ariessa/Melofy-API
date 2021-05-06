@@ -12,9 +12,9 @@ from magenta.models.melody_rnn import melody_rnn_sequence_generator
 from magenta.models.shared import sequence_generator_bundle
 from note_seq.protobuf import generator_pb2
 from note_seq.protobuf import music_pb2
-from timidity import Parser, play_notes
-from scipy.signal import square, sawtooth
-from scipy.io import wavfile
+# from timidity import Parser, play_notes
+# from scipy.signal import square, sawtooth
+# from scipy.io import wavfile
 
 # Create a Flask application object
 app = Flask(__name__)
@@ -36,6 +36,7 @@ def page_not_found(e):
 # A route to generate melody from supplied audio file link
 @app.route('/generate', methods=['POST'])
 def generate_melody():
+    # TODO: Get storage_account, input_container_name, output_container_name
     # If there is no request data in json or audio_file item in request data
     # Abort the request and return error code 400
     if not request.json or not 'audio_file_link' in request.json:
@@ -93,34 +94,34 @@ def generate_melody():
         print('Exception:')
         print(ex)
 
-    # Generate converted audioFileName (name of audio file with .mid extension)
-    # Extract all characters before . in audioFileName
-    head, sep, tail = audioFileName.partition('.')
-    print("\n\nExtracted all characters before . in audioFileName")
-    # working
+    # # Generate converted audioFileName (name of audio file with .mid extension)
+    # # Extract all characters before . in audioFileName
+    # head, sep, tail = audioFileName.partition('.')
+    # print("\n\nExtracted all characters before . in audioFileName")
+    # # working
 
-    # Concatenate filename with .mid extension
-    convertedAudioFileName = head + ".mid"
-    print("\n\nConcatenated filename with .mid extension")
-    print("\nconvertedAudioFileName: " + convertedAudioFileName)
-    # working
+    # # Concatenate filename with .mid extension
+    # convertedAudioFileName = head + ".mid"
+    # print("\n\nConcatenated filename with .mid extension")
+    # print("\nconvertedAudioFileName: " + convertedAudioFileName)
+    # # working
 
-    # Command to convert WAV file to MIDI file
-    command = "audio-to-midi --output " + convertedAudioFileName + " " + audioFileName
-    # working
+    # # Command to convert WAV file to MIDI file
+    # command = "audio-to-midi --output " + convertedAudioFileName + " " + audioFileName
+    # # working
 
-    # Execute the command
-    stream = os.popen(command)
-    # working
+    # # Execute the command
+    # stream = os.popen(command)
+    # # working
 
-    # Display output of command
-    output = stream.readlines()
-    # working
+    # # Display output of command
+    # output = stream.readlines()
+    # # working
 
-    print("\n\nConverted WAV file to MIDI file")
+    # print("\n\nConverted WAV file to MIDI file")
 
     # Convert MIDI file to Note Sequence file
-    audioNoteSequence = note_seq.midi_file_to_note_sequence(convertedAudioFileName)
+    audioNoteSequence = note_seq.midi_file_to_note_sequence(audioFileName)
     print("\n\nConverted MIDI file to Note Sequence file")
     # working
 
@@ -172,23 +173,23 @@ def generate_melody():
     print("\n\nConverted Note Sequence file to MIDI file")
     # working
 
-    # Generate file name for generated melody (WAV)
-    # Extract all characters before . in convertedAudioFileName
-    head, sep, tail = generatedMelody.partition('.')
-    print("\n\nExtracted all characters before . in generatedMelody")
-    # working
+    # # Generate file name for generated melody (WAV)
+    # # Extract all characters before . in convertedAudioFileName
+    # head, sep, tail = generatedMelody.partition('.')
+    # print("\n\nExtracted all characters before . in generatedMelody")
+    # # working
 
-    # Concatenate file name for generated melody with .wav extension
-    convertedGeneratedMelody = head + ".wav"
-    print("\n\nConcatenate file name for generated melody with .wav extension")
-    print("\ngeneratedMelody: " + convertedGeneratedMelody)
-    # working
+    # # Concatenate file name for generated melody with .wav extension
+    # convertedGeneratedMelody = head + ".wav"
+    # print("\n\nConcatenate file name for generated melody with .wav extension")
+    # print("\ngeneratedMelody: " + convertedGeneratedMelody)
+    # # working
 
-    # Convert MIDI file to WAV file
-    ps = Parser(generatedMelody)
-    audio, player = play_notes(*ps.parse(), sawtooth, wait_done=False)
-    wavfile.write(convertedGeneratedMelody, 44100, audio)
-    print("\n\nConverted MIDI file to WAV file")
+    # # Convert MIDI file to WAV file
+    # ps = Parser(generatedMelody)
+    # audio, player = play_notes(*ps.parse(), sawtooth, wait_done=False)
+    # wavfile.write(convertedGeneratedMelody, 44100, audio)
+    # print("\n\nConverted MIDI file to WAV file")
     # working
 
     # Upload generatedMelody to Azure Blob Storage Container
@@ -205,23 +206,23 @@ def generate_melody():
         # working
 
         # Create a blob client using the convertedGeneratedMelody as the name for the blob
-        blob_client = blob_service_client.get_blob_client(container=output_container_name, blob=convertedGeneratedMelody)
+        blob_client = blob_service_client.get_blob_client(container=output_container_name, blob=generatedMelody)
         print("\n\nCreated a blob client using the convertedGeneratedMelody as the name for the blob")
         # working
 
         # Set path of file to upload
-        upload_file_path = os.path.join(pathToAudioFile, convertedGeneratedMelody)
+        upload_file_path = os.path.join(pathToAudioFile, generatedMelody)
         # working
 
         # Create a blob client using the local file name as the name for the blob
-        blob_client = blob_service_client.get_blob_client(container=output_container_name, blob=convertedGeneratedMelody)
-        print("\n\nUploading to Azure Storage as blob:\n\t" + convertedGeneratedMelody)
+        blob_client = blob_service_client.get_blob_client(container=output_container_name, blob=generatedMelody)
+        print("\n\nUploading to Azure Storage as blob:\n\t" + generatedMelody)
         # working
 
         # Upload the created file
         with open(upload_file_path, "rb") as data:
             blob_client.upload_blob(data)
-        print("\n\nUploaded to Azure Storage as blob:\n\t" + convertedGeneratedMelody)
+        print("\n\nUploaded to Azure Storage as blob:\n\t" + generatedMelody)
         # working
 
     except Exception as ex:
@@ -229,14 +230,14 @@ def generate_melody():
         print(ex)
 
     # Set link to uploaded audio file in Azure Blob Storage
-    convertedGeneratedMelodyLink = "https://melofyapi.blob.core.windows.net/" + output_container_name + "/" + convertedGeneratedMelody
+    generatedMelodyLink = "https://melofyapi.blob.core.windows.net/" + output_container_name + "/" + generatedMelody
 
-    return convertedGeneratedMelodyLink
+    return generatedMelodyLink
 
 # Run the application server
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(debug = True, host = '0.0.0.0')
+    app.run(host = '0.0.0.0')
 
 # Example of correct POST request
 # curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://melofyapi.blob.core.windows.net/melofy-api-input/twinkle_twinkle_little_star.wav\" }" http://localhost:5000/generate
