@@ -1,6 +1,6 @@
 # Melofy API
 
-An RESTful API in Python for generating melody from supplied audio file link.
+An API in Python for generating melody from supplied audio file link.
 
 </br>
 
@@ -48,28 +48,29 @@ Congratulations, you just run the Flask app locally!
 
 1. Enable incoming traffic for port `5000`. This is done by navigating to Control Panel> System and Security > Windows Defender Firewall > Advanced Settings
 
-![Advanced Settings](Advanced Settings.PNG)
+![Advanced Settings](Advanced%20Settings.PNG)
 
 </br>
 
 2. In Advanced Settings, click on Inbound Rules
 
+</br>
 
 3. After clicking Inbound Rules, click on New Rules in the Action column
 
-![Inbound Rules](Inbound Rules.PNG)
+![Inbound Rules](Inbound%20Rules.PNG)
 
 </br>
 
 4. In New Inbound Rule Wizard, select Rule Type as Port and click Next
 
-![New Inbound Rule Wizard](New Inbound Rule Wizard.PNG)
+![New Inbound Rule Wizard](New%20Inbound%20Rule%20Wizard.PNG)
 
 </br>
 
 5. In New Inbound Rule Wizard, apply rule to TCP and set specific local port to 5000 and click Next
 
-![Protocol and Ports](Protocol and Ports.PNG)
+![Protocol and Ports](Protocol%20and%20Ports.PNG)
 
 </br>
 
@@ -93,7 +94,7 @@ Congratulations, you just run the Flask app locally!
 
 9. Check New Inbound Rule in the list of Inbound Rules
 
-![Check New Inbound Rule](Check New Inbound Rule.PNG)
+![Check New Inbound Rule](Check%20New%20Inbound%20Rule.PNG)
 
 
 Congratulations, you just exposed local port 5000 to the Internet!
@@ -119,12 +120,14 @@ ngrok http 5000
 
 </br>
 
-1. Expose a web server on port 5000, set region to Asia Pasific, and subdomain to melofyapi
+Expose a web server on port 5000 of your local machine to the Internet, set region to Asia Pasific, and subdomain to melofyapi
 ```
 ngrok http -region=ap -hostname=melofyapi.ap.ngrok.io 5000
 ```
 
-Congratulations, you can now access the Flask app at `http://melofyapi.ap.ngrok.io`!
+</br>
+
+Congratulations, you can now access the API at `http://melofyapi.ap.ngrok.io`!
 
 
 
