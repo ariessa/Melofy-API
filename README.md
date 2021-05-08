@@ -19,9 +19,25 @@ In order to run this API, you need to install the following software first:
 
   A route to the homepage
   
+  </br>
+  
+  **Example using curl command in Windows CMD (GET Request)**
+  ```
+  curl http://melofyapi.ap.ngrok.io
+  ```
+  
+  </br>
+  
 + `/generate`
 
   A route to generate melody from supplied audio file link
+  
+  </br>
+  
+  **Example using curl command in Windows CMD (POST Request)**
+  ```
+  curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://melofyapi.blob.core.windows.net/melofy-api-input/twinkle_twinkle_little_star.mid\" }" http://melofyapi.ap.ngrok.io/generate
+  ```
   
 </br>
 
