@@ -13,6 +13,18 @@ In order to run this API, you need to install the following software first:
 
 </br>
 
+## API Endpoints
+
++ `/`
+
+  A route to the homepage
+  
++ `/generate`
+
+  A route to generate melody from supplied audio file link
+  
+</br>
+
 ## Deploy
 
 </br>
