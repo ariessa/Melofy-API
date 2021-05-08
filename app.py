@@ -12,9 +12,9 @@ from magenta.models.melody_rnn import melody_rnn_sequence_generator
 from magenta.models.shared import sequence_generator_bundle
 from note_seq.protobuf import generator_pb2
 from note_seq.protobuf import music_pb2
-# from timidity import Parser, play_notes
-# from scipy.signal import square, sawtooth
-# from scipy.io import wavfile
+from timidity import Parser, play_notes
+from scipy.signal import square, sawtooth
+from scipy.io import wavfile
 
 # Create a Flask application object
 app = Flask(__name__)
@@ -55,8 +55,10 @@ def generate_melody():
     # working
 
     # Path to store audio file
-    # pathToAudioFile = "C:\\Users\\aries\\Desktop\\melofy-api\\"
-    pathToAudioFile = "/tmp"
+    # Get current working directory
+    # This is the path where you run the flask app
+    pathToAudioFile = os.getcwd()
+    print("\n\nCurrent working directory: " + pathToAudioFile)
     # working
 
     # Azure's Blob Connection string
@@ -80,11 +82,12 @@ def generate_melody():
         print("\n\nCreated a blob client using the audioFileName as the name for the blob")
         # working
 
-        # Download the blob to pathToAudioFile
+        # Set path to store download file
         download_file_path = os.path.join(pathToAudioFile, audioFileName)
         print("\n\nDownloading blob to \n\t" + download_file_path)
         # working
 
+        # Download the blob to pathToAudioFile
         with open(download_file_path, "wb") as download_file:
             download_file.write(blob_client.download_blob().readall())
         print("\n\nDownloaded the blob to \n\t" + download_file_path)
@@ -94,34 +97,34 @@ def generate_melody():
         print('Exception:')
         print(ex)
 
-    # # Generate converted audioFileName (name of audio file with .mid extension)
-    # # Extract all characters before . in audioFileName
-    # head, sep, tail = audioFileName.partition('.')
-    # print("\n\nExtracted all characters before . in audioFileName")
-    # # working
+    # Generate converted audioFileName (name of audio file with .mid extension)
+    # Extract all characters before . in audioFileName
+    head, sep, tail = audioFileName.partition('.')
+    print("\n\nExtracted all characters before . in audioFileName")
+    # working
 
-    # # Concatenate filename with .mid extension
-    # convertedAudioFileName = head + ".mid"
-    # print("\n\nConcatenated filename with .mid extension")
-    # print("\nconvertedAudioFileName: " + convertedAudioFileName)
-    # # working
+    # Concatenate filename with .mid extension
+    convertedAudioFileName = head + ".mid"
+    print("\n\nConcatenated filename with .mid extension")
+    print("\nconvertedAudioFileName: " + convertedAudioFileName)
+    # working
 
-    # # Command to convert WAV file to MIDI file
-    # command = "audio-to-midi --output " + convertedAudioFileName + " " + audioFileName
-    # # working
+    # Command to convert WAV file to MIDI file
+    command = "audio-to-midi --output " + convertedAudioFileName + " " + audioFileName
+    # working
 
-    # # Execute the command
-    # stream = os.popen(command)
-    # # working
+    # Execute the command
+    stream = os.popen(command)
+    # working
 
-    # # Display output of command
-    # output = stream.readlines()
-    # # working
+    # Display output of command
+    output = stream.readlines()
+    # working
 
-    # print("\n\nConverted WAV file to MIDI file")
+    print("\n\nConverted WAV file to MIDI file")
 
     # Convert MIDI file to Note Sequence file
-    audioNoteSequence = note_seq.midi_file_to_note_sequence(audioFileName)
+    audioNoteSequence = note_seq.midi_file_to_note_sequence(convertedAudioFileName)
     print("\n\nConverted MIDI file to Note Sequence file")
     # working
 
@@ -173,6 +176,8 @@ def generate_melody():
     print("\n\nConverted Note Sequence file to MIDI file")
     # working
 
+    # Currently, no conversion from MIDI to WAV file will be executed
+    # This is because the WAV file produces a high pitch sound that's not favourable to ears
     # # Generate file name for generated melody (WAV)
     # # Extract all characters before . in convertedAudioFileName
     # head, sep, tail = generatedMelody.partition('.')
@@ -239,7 +244,15 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host = '0.0.0.0')
 
-# Example of correct POST request
+# Send POST request using curl on Windows
+# curl -i -X POST -H "Content-Type:application/json" -d "{\"<name-of-item>\": \"<item>\" }" http://<domain>/<route>
+
+# Example of correct POST request using curl on Windows
 # curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://melofyapi.blob.core.windows.net/melofy-api-input/twinkle_twinkle_little_star.wav\" }" http://localhost:5000/generate
-# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://melofyapi.blob.core.windows.net/melofy-api-input/twinkle_twinkle_little_star.wav\" }" https://melofy-api.herokuapp.com/generate
-# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://melofyapi.blob.core.windows.net/melofy-api-input/twinkle_twinkle_little_star.mid\" }" https://melofyapi.azurewebsites.net/generate
+# curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://melofyapi.blob.core.windows.net/melofy-api-input/twinkle_twinkle_little_star.mid\" }" http://melofyapi.ap.ngrok.io/generate
+
+# Start ngrok
+# ngrok http -region=<region> -hostname=<subdomain>.<region>.ngrok.io <port>
+
+# Example of starting ngrok
+# ngrok http -region=ap -hostname=melofyapi.ap.ngrok.io 5000
