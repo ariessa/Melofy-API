@@ -4,6 +4,15 @@ An API in Python for generating melody from supplied audio file link.
 
 </br>
 
+## Prerequisites
+
+In order to run this API, you need to install the following software first:
+
++ [Anaconda](https://www.anaconda.com/products/individual#Downloads)
++ [Ngrok](https://ngrok.com/download)
+
+</br>
+
 ## Deploy
 
 </br>
@@ -101,7 +110,7 @@ Congratulations, you just exposed local port 5000 to the Internet!
 
 </br>
 
-### Start ngrok
+### Start Ngrok
 
 </br>
 
