@@ -9,6 +9,7 @@ An API in Python for generating melody from supplied audio file link.
 In order to run this API, you need to install the following software first:
 
 + [Anaconda](https://www.anaconda.com/products/individual#Downloads)
++ [Git](https://git-scm.com/downloads)
 + [Ngrok](https://ngrok.com/download)
 
 </br>
