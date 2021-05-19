@@ -20,7 +20,7 @@ from google.cloud import storage
 # Create a Flask application object
 app = Flask(__name__)
 
-# Explicitly use service account credentials by specifying the private key file
+# Explicitly use Google Cloud service account credentials by specifying the private key file
 storage_client = storage.Client.from_service_account_json('melofy-1b47c-33e8fbb61207.json')
 
 # Start the debugger
