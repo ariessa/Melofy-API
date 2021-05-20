@@ -72,7 +72,11 @@ def generate_melody():
     pathToAudioFile = pathToAudioFile + "\\" + inputFolder
 
     # Azure's Blob Connection string
-    connectionString = "DefaultEndpointsProtocol=https;AccountName=melofyapi;AccountKey=ucqmEO03FyTs7/z9JS7pQkA7bIai7O0ycBs09Iataco8xk3BcxRDNmy5+NqYLqYjiMxTP8ZRRsaHFT4HRvn0Dw==;EndpointSuffix=core.windows.net"
+    connectionString = ("DefaultEndpointsProtocol=https;"
+                        "AccountName=melofyapi;"
+                        "AccountKey=ucqmEO03FyTs7/z9JS7pQkA7bIai7O0ycBs09Iataco8xk3BcxR"
+                        "DNmy5+NqYLqYjiMxTP8ZRRsaHFT4HRvn0Dw==;"
+                        "EndpointSuffix=core.windows.net")
 
     try:
         # Create the BlobServiceClient object which will be used to get blob
