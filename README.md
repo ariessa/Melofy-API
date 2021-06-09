@@ -67,7 +67,7 @@ conda activate snakes
 
 4. Use pip to install packages
 ```
-pip install flask gunicorn magenta azure-storage-blob audio-to-midi timidity
+pip install audio-to-midi azure-storage-blob flask google-cloud-storage gunicorn magenta timidity
 ```
 
 5. Run flask app
