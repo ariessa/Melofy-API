@@ -22,7 +22,7 @@ In order to run this API, you need to install the following software first:
   
   </br>
   
-  **Example using curl command in Windows CMD (GET Request)**
+  **Example using curl command to send GET request in Windows CMD**
   ```
   curl http://melofyapi.ap.ngrok.io
   ```
@@ -35,7 +35,7 @@ In order to run this API, you need to install the following software first:
   
   </br>
   
-  **Example using curl command in Windows CMD (POST Request)**
+  **Example using curl command to send POST request in Windows CMD**
   ```
   curl -i -X POST -H "Content-Type:application/json" -d "{\"audio_file_link\": \"https://melofyapi.blob.core.windows.net/melofy-api-input/twinkle_twinkle_little_star.wav\" }" http://melofyapi.ap.ngrok.io/generate
   ```
