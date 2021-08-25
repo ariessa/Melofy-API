@@ -167,5 +167,15 @@ ngrok http -region=ap -hostname=melofyapi.ap.ngrok.io 5000
 
 Congratulations, you can now access the API at `http://melofyapi.ap.ngrok.io`!
 
+</br>
+
+</br>
+
+## Examples of Azure Blob Storage Usage
+
+<img src="https://github.com/ariessa/melofy-api/blob/main/Azure-Blob-Storage-1.png" title="Azure Blob Storage I">
+
+<img src="https://github.com/ariessa/melofy-api/blob/main/Azure-Blob-Storage-2.png" title="Azure Blob Storage II">
+
 
 
